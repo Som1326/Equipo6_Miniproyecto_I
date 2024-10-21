@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <!-- Anillo exterior -->
+        <item
+            android:left="10dp"
+            android:top="10dp"
+            android:right="10dp"
+            android:bottom="10dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/orange_ext"/> <!-- Color del anillo exterior -->
+            </shape>
+        </item>
+
+        <!-- Anillo medio -->
+        <item
+            android:left="70dp"
+            android:top="70dp"
+            android:right="70dp"
+            android:bottom="70dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/orange_mid"/> <!-- Color del anillo medio -->
+            </shape>
+        </item>
+
+        <!-- Anillo interior -->
+        <item
+            android:left="140dp"
+            android:top="140dp"
+            android:right="140dp"
+            android:bottom="140dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/orange"/> <!-- Color del anillo interior -->
+            </shape>
+        </item>
+
+    </layer-list>
