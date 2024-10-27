@@ -10,7 +10,7 @@
         tools:context=".view.fragment.HomeFragment">
 
         <include
-            android:id="@+id/contentToolbar"
+            android:id="@id/contentToolbar"
             layout="@layout/toolbar" />
 
         <ImageView
@@ -18,11 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/bottle"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="parent">
-        </ImageView>
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txt_counter"

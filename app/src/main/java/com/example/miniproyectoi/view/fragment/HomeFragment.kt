@@ -3,20 +3,27 @@ package com.example.miniproyectoi.view.fragment
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.media.AudioManager
+import android.media.Image
 import android.media.MediaPlayer
 import android.media.SoundPool
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
+import android.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.miniproyectoi.R
 import com.example.miniproyectoi.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -61,46 +68,47 @@ class HomeFragment : Fragment() {
     private fun setupToolbar() {
         val toolbar = binding.contentToolbar.toolbar
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom)
-        toolbar.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.rate_toolbar -> {
-                    //Tarea a realizar
-                    Snackbar.make(toolbar, "Rate Option", Toast.LENGTH_LONG).show()
-                    toolbar.startAnimation(animation)
-                    findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
-                    true
-                }
 
-                R.id.volume_toolbar -> {
-                    //Tarea a realizar
-                    Snackbar.make(toolbar, "Volume Option", Toast.LENGTH_LONG).show()
-                    true
-                }
-
-                R.id.game_toolbar -> {
-                    //Tarea a realizar
-                    Snackbar.make(toolbar, "Instructions Option", Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_homeFragment_to_instructionsFragment)
-                    true
-                }
-
-                R.id.add_toolbar -> {
-                    //Tarea a realizar
-                    Snackbar.make(toolbar, "Add Option", Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_homeFragment_to_challengeFragment)
-                    true
-                }
-
-                R.id.share_toolbar -> {
-                    //Tarea a realizar
-                    Snackbar.make(toolbar, "Share Option", Toast.LENGTH_LONG).show()
-                    true
-                }
-
-                else -> false
+        toolbar.findViewById<ImageView>(R.id.rate_toolbar).setOnClickListener {
+            Snackbar.make(toolbar, "Rate Option", Toast.LENGTH_LONG).show()
+            toolbar.findViewById<ImageView>(R.id.rate_toolbar).startAnimation(animation)
+            lifecycleScope.launch{
+                delay(animation.duration)  // Espera el tiempo de la animación
+                findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
             }
         }
 
-    }
+        val volumeButton = toolbar.findViewById<ImageView>(R.id.volume_toolbar)
+        volumeButton.setOnClickListener {
+            if (mediaPlayer?.isPlaying == true) {
+                mediaPlayer?.pause()
+                volumeButton.setImageResource(R.drawable.baseline_volume_off_24) // Cambia al icono de "play"
+                Snackbar.make(toolbar, "Music Paused", Snackbar.LENGTH_LONG).show()
+            } else {
+                mediaPlayer?.start()
+                volumeButton.setImageResource(R.drawable.baseline_volume_up_24) // Cambia al icono de "pausa"
+                Snackbar.make(toolbar, "Music Playing", Snackbar.LENGTH_LONG).show()
+            }
+        }
 
+        toolbar.findViewById<ImageView>(R.id.game_toolbar).setOnClickListener {
+            Snackbar.make(toolbar, "Instructions Option", Toast.LENGTH_LONG).show()
+            lifecycleScope.launch{
+                delay(animation.duration)  // Espera el tiempo de la animación
+                findNavController().navigate(R.id.action_homeFragment_to_instructionsFragment)
+            }
+        }
+
+        toolbar.findViewById<ImageView>(R.id.add_toolbar).setOnClickListener {
+            Snackbar.make(toolbar, "Add Option", Toast.LENGTH_LONG).show()
+            lifecycleScope.launch{
+                delay(animation.duration)  // Espera el tiempo de la animación
+                findNavController().navigate(R.id.action_homeFragment_to_challengeFragment)
+            }
+        }
+
+        toolbar.findViewById<ImageView>(R.id.share_toolbar).setOnClickListener {
+            Snackbar.make(toolbar, "Share Option", Toast.LENGTH_LONG).show()
+        }
+    }
 }
