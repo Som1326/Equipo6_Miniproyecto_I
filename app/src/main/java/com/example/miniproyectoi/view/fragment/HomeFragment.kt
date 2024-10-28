@@ -19,6 +19,7 @@ import android.widget.Toast
 import android.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.LottieAnimationView
 import com.example.miniproyectoi.R
 import com.example.miniproyectoi.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -43,9 +44,14 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
 
-        val button = binding.btnStart.findViewById<Button>(R.id.btn_start)
-        val flickAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.flicker)
-        button.startAnimation(flickAnimation)
+        binding.btnStart.setOnClickListener {
+            Snackbar.make(binding.btnStart.findViewById(R.id.btn_start), "Boton presionado", Toast.LENGTH_LONG).show()
+            lifecycleScope.launch{
+                binding.btnStart.playAnimation()
+                delay(binding.btnStart.duration/3)  // Espera el tiempo de la animación
+                findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
+            }
+        }
 
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.runaway)
         mediaPlayer?.isLooping = true

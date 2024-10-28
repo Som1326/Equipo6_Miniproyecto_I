@@ -39,16 +39,17 @@
             app:layout_constraintBottom_toBottomOf="parent">
         </TextView>
 
-        <Button
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/btn_start"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/radar_button"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_loop="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_counter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.775" />
+            app:layout_constraintVertical_bias="0.75"
+            app:lottie_rawRes="@raw/btnanimation"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_start"
+            app:layout_constraintTop_toTopOf="@id/btn_start"
+            app:layout_constraintVertical_bias="0.85"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
