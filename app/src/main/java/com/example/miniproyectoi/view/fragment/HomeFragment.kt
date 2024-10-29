@@ -2,6 +2,7 @@ package com.example.miniproyectoi.view.fragment
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.media.AudioManager
 import android.media.Image
 import android.media.MediaPlayer
@@ -118,6 +119,10 @@ class HomeFragment : Fragment() {
         toolbar.findViewById<ImageView>(R.id.share_toolbar).setOnClickListener {
             Snackbar.make(toolbar, "Share Option", Toast.LENGTH_LONG).show()
         }
+        val OptionShare = toolbar.findViewById<ImageView>(R.id.share_toolbar)
+
+        OptionShare.setOnClickListener{ Share()}
+
     }
 
     private fun handleOnBackPressed() {
@@ -131,4 +136,22 @@ class HomeFragment : Fragment() {
             }
         )
     }
+    private fun Share() {
+        val appTitle = "App pico botella"
+        val slogan = "Solo los valientes lo juegan !!"
+        val appUrl = "https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
+
+        val shareText = "$appTitle\n$slogan\n$appUrl"
+
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+
+        val chooser = Intent.createChooser(intent, "Compartir vía")
+        startActivity(chooser)
+    }
+
+
 }
