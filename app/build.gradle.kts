@@ -88,4 +88,5 @@ dependencies {
 
     // LottieFiles
     implementation ("com.airbnb.android:lottie:6.5.2")
+    implementation("com.github.LottieFiles:dotlottie-android:0.5.0")
 }

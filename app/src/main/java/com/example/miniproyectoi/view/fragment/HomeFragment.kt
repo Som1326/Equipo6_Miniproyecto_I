@@ -25,6 +25,7 @@ import com.example.miniproyectoi.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.activity.OnBackPressedCallback
 
 class HomeFragment : Fragment() {
 
@@ -37,6 +38,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
+        handleOnBackPressed()
         return binding.root
     }
 
@@ -116,5 +118,17 @@ class HomeFragment : Fragment() {
         toolbar.findViewById<ImageView>(R.id.share_toolbar).setOnClickListener {
             Snackbar.make(toolbar, "Share Option", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // Cierra la app al presionar atrás desde el Home
+                    requireActivity().finish()
+                }
+            }
+        )
     }
 }
