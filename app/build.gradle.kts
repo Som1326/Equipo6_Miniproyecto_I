@@ -85,4 +85,8 @@ dependencies {
     implementation ("androidx.room:room-ktx:2.5.2")
     ksp("androidx.room:room-compiler:2.5.2")
     implementation ("com.getbase:floatingactionbutton:1.10.1")
+
+    // LottieFiles
+    implementation ("com.airbnb.android:lottie:6.5.2")
+    implementation("com.github.LottieFiles:dotlottie-android:0.5.0")
 }
