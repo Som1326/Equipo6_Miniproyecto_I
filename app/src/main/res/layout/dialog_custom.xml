@@ -24,19 +24,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"/>
 
         <EditText
             android:id="@+id/et_challenge_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Nombre del reto"
+            android:hint="Escriba el reto"
             android:inputType="text"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/orange_mid"
             app:layout_constraintBottom_toTopOf="@+id/button_container" />
 
         <!-- Contenedor para los botones -->
