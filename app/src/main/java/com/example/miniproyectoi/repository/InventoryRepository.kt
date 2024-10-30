@@ -4,8 +4,6 @@ import android.content.Context
 import com.example.miniproyectoi.webservice.ApiService
 import com.example.miniproyectoi.webservice.ApiUtils
 import com.example.miniproyectoi.model.ProductModelResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class InventoryRepository (val context: Context) {
     private var apiService: ApiService = ApiUtils.getApiService()
