@@ -89,4 +89,15 @@ dependencies {
     // LottieFiles
     implementation ("com.airbnb.android:lottie:6.5.2")
     implementation("com.github.LottieFiles:dotlottie-android:0.5.0")
+
+    //uso de api
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
+
+
 }

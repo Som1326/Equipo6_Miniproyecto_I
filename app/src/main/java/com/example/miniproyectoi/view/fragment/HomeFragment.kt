@@ -29,12 +29,16 @@ import kotlinx.coroutines.launch
 import androidx.activity.OnBackPressedCallback
 import kotlin.random.Random
 import android.animation.Animator
+import com.example.miniproyectoi.view.dialogos.DialogoMostrarReto.Companion.showDialogPersonalizado
+import androidx.fragment.app.viewModels
+import com.example.miniproyectoi.viewmodel.InventoryViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private var mediaPlayer: MediaPlayer? = null
     private var lastRotation = 0f
+    private val inventoryViewModel: InventoryViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -205,8 +209,11 @@ class HomeFragment : Fragment() {
             binding.txtCounter.visibility = View.GONE // Ocultamos el contador cuando llega a 0
             binding.btnStart.visibility = View.VISIBLE // Muestramos el botón nuevamente
             binding.txtPresioname.visibility=View.VISIBLE
+
+            showDialogPersonalizado(binding.root.context, inventoryViewModel)
         }
     }
+
 
 
 }
