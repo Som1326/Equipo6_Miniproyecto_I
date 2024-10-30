@@ -1,24 +1,27 @@
 package com.example.miniproyectoi.view.fragment
-
-import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.miniproyectoi.R
-import com.example.miniproyectoi.databinding.DialogCustomBinding
 import com.example.miniproyectoi.databinding.FragmentChallengeBinding
+import com.example.miniproyectoi.view.adapter.ChallengeAdapter
+
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.navigation.fragment.findNavController
+import com.example.miniproyectoi.databinding.DialogCustomBinding
+import com.example.miniproyectoi.viewmodel.ChallengeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ChallengeFragment : Fragment() {
-
     private lateinit var binding: FragmentChallengeBinding
+    private val challengeViewModel: ChallengeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,11 @@ class ChallengeFragment : Fragment() {
         setupDialog()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observerViewModel()
     }
 
     private fun setupDialog() {
@@ -74,33 +82,27 @@ class ChallengeFragment : Fragment() {
         }
     }
 
-
-    private fun showCustomDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_custom, null)
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogView)
-            .setCancelable(false)  // Evita que el diálogo se cierre al tocar fuera
-            .create()
-
-        // Botones del diálogo
-        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
-        val btnSave = dialogView.findViewById<Button>(R.id.btn_save)
-
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        btnSave.setOnClickListener {
-            val challengeName = dialogView.findViewById<EditText>(R.id.et_challenge_name).text.toString()
-            if (challengeName.isNotEmpty()) {
-                // Lógica para guardar el reto
-                dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Ingrese un nombre", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        dialog.show()
+    private fun observerViewModel(){
+        observerListChallenge()
+        observerProgress()
     }
+
+    private fun observerListChallenge(){
+        challengeViewModel.getListChallenge()
+        challengeViewModel.listChallenge.observe(viewLifecycleOwner){ listChallenge ->
+            val recycler = binding.recyclerview
+            val layoutManager = LinearLayoutManager(context)
+            recycler.layoutManager = LinearLayoutManager(context)
+            val adapter = ChallengeAdapter(listChallenge, findNavController())
+            recycler.adapter =adapter
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun observerProgress(){
+        challengeViewModel.progresState.observe(viewLifecycleOwner){status ->
+            binding.progress.isVisible = status
+        }
+    }
+
 }
