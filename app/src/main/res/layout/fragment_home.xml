@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/contador"
+            android:visibility="invisible"
             android:textSize="50sp"
             android:textColor="@color/orange"
             android:textStyle="bold"
@@ -52,6 +53,7 @@
             app:lottie_rawRes="@raw/btnanimation"/>
 
         <TextView
+            android:id="@+id/txt_presioname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/presioname"
