@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
     private val inventoryViewModel: InventoryViewModel by viewModels()
     private var playMusic = true
     private var volumeUp = true
-
+    private var _url = "https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -126,9 +126,12 @@ class HomeFragment : Fragment() {
             if (playMusic){
                 mediaPlayer?.stop()
             }
-            lifecycleScope.launch{
+            lifecycleScope.launch {
                 delay(animation.duration)  // Espera el tiempo de la animación
-                findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = android.net.Uri.parse(_url)
+                }
+                startActivity(intent)
             }
         }
 
