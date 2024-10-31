@@ -50,6 +50,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
             _progresState.value = true
             try {
                 challengeRepository.deleteChallenge(challenge)
+                getListChallenge()
                 _progresState.value = false
             } catch (e: Exception){
                 _progresState.value = false
@@ -62,6 +63,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
             _progresState.value = true
             try {
                 challengeRepository.updateRepository(challenge)
+                getListChallenge()
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false

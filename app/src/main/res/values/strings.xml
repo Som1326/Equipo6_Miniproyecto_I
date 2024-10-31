@@ -10,4 +10,5 @@
     <string name="escriba_el_reto">Escriba el reto</string>
     <string name="cancelar">Cancelar</string>
     <string name="guardar">Guardar</string>
+    <string name="editar_reto">Editar Reto</string>
 </resources>

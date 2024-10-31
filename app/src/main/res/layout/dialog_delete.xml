@@ -17,30 +17,28 @@
             android:id="@+id/dialog_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/editar_reto"
+            android:text="¿Deseas eliminar el siguiente Reto?:"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:id="@+id/et_challenge_name"
+        <TextView
+            android:id="@+id/tv_challenge_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/escriba_el_reto"
-            android:inputType="text"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="Se eliminará el reto... ¿Deseas continuar?"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/orange_mid"
-            app:layout_constraintBottom_toTopOf="@+id/button_container" />
+            app:layout_constraintBottom_toTopOf="@+id/button_container"
+            app:layout_constraintTop_toBottomOf="@id/dialog_title" />
 
         <!-- Contenedor para los botones -->
         <LinearLayout
@@ -55,22 +53,22 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
-                android:id="@+id/btn_cancel_edit"
+                android:id="@+id/btn_cancel_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/cancelar"
+                android:text="No"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/orange_mid" />
 
             <View android:layout_width="16dp" android:layout_height="@+id/btn_cancel" />
 
             <Button
-                android:id="@+id/btn_save_edit"
+                android:id="@+id/btn_save_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/guardar"
+                android:text="Si"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/orange_mid"/>
         </LinearLayout>

@@ -13,6 +13,8 @@ import com.example.miniproyectoi.view.adapter.ChallengeAdapter
 
 import androidx.navigation.fragment.findNavController
 import com.example.miniproyectoi.view.dialogos.DialogAddChallenge
+import com.example.miniproyectoi.view.dialogos.DialogDeleteChallenge
+import com.example.miniproyectoi.view.dialogos.DialogEditChallenge
 import com.example.miniproyectoi.viewmodel.ChallengeViewModel
 
 class ChallengeFragment : Fragment() {
@@ -48,17 +50,29 @@ class ChallengeFragment : Fragment() {
         observerProgress()
     }
 
-    private fun observerListChallenge(){
+    private fun observerListChallenge() {
         challengeViewModel.getListChallenge()
-        challengeViewModel.listChallenge.observe(viewLifecycleOwner){ listChallenge ->
+        challengeViewModel.listChallenge.observe(viewLifecycleOwner) { listChallenge ->
             val recycler = binding.recyclerview
-            val layoutManager = LinearLayoutManager(context)
             recycler.layoutManager = LinearLayoutManager(context)
-            val adapter = ChallengeAdapter(listChallenge, findNavController())
-            recycler.adapter =adapter
+
+            val adapter = ChallengeAdapter(
+                listChallenge,
+                findNavController(),
+                onEditClick = { challenge ->
+                    DialogEditChallenge.showDialog(requireContext(), challengeViewModel, challenge)
+                },
+                onDeleteClick = { challenge ->
+                    DialogDeleteChallenge.showDialog(requireContext(), challengeViewModel, challenge)
+                }
+            )
+
+            recycler.adapter = adapter
             adapter.notifyDataSetChanged()
         }
     }
+
+
 
     private fun observerProgress(){
         challengeViewModel.progresState.observe(viewLifecycleOwner){status ->
