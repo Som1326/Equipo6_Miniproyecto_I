@@ -15,7 +15,7 @@
             android:id="@+id/dialog_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Agregar Reto"
+            android:text="@string/agregar_reto"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
@@ -30,7 +30,7 @@
             android:id="@+id/et_challenge_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Escriba el reto"
+            android:hint="@string/escriba_el_reto"
             android:inputType="text"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,16 +57,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancelar"
+                android:text="@string/cancelar"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/orange_mid" />
+
+            <View android:layout_width="16dp" android:layout_height="@+id/btn_cancel" />
 
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Guardar"
+                android:text="@string/guardar"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/orange_mid"/>
         </LinearLayout>
