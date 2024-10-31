@@ -7,13 +7,15 @@ import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.example.miniproyectoi.databinding.DialogoMostrarRetoBinding
 import androidx.lifecycle.ViewModelProvider
+import com.example.miniproyectoi.viewmodel.ChallengeViewModel
 import com.example.miniproyectoi.viewmodel.InventoryViewModel // Importa tu ViewModel
 
 class DialogoMostrarReto {
     companion object{
         fun showDialogPersonalizado(
             context: Context,
-            viewModel: InventoryViewModel, // Pasamos el ViewModel como parámetro
+            viewModel: InventoryViewModel, // de aqui se traen las imagenss
+            challengeViewModel: ChallengeViewModel, // view model de los retos
             setupMusic: () -> Unit, // Pasamos la función como parámetro
         ) {
             val inflater = LayoutInflater.from(context)
@@ -23,6 +25,8 @@ class DialogoMostrarReto {
             alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             alertDialog.setCancelable(false)
             alertDialog.setView(binding.root)
+
+
 
             // Llama a la función traerimagenapi para mostrar imagen y texto aleatorios
             traerimagenapi(binding, viewModel)
@@ -35,7 +39,7 @@ class DialogoMostrarReto {
             alertDialog.setOnDismissListener {
                 setupMusic()
             }
-
+            traerDescripcionRetoAleatorio(binding, challengeViewModel)
             alertDialog.show()
         }
 
@@ -56,8 +60,18 @@ class DialogoMostrarReto {
                     val product = lista[randomIndex]
 
                     Glide.with(binding.root.context)
-                        .load(product.img) // Asegúrate de que sea `product.img` para la URL de la imagen
-                        .into(binding.imgPokemon) // Confirma que `imgPokemon` es el ID correcto en el XML
+                        .load(product.img)
+                        .into(binding.imgPokemon)
+                }
+            }
+        }
+        private fun traerDescripcionRetoAleatorio(binding: DialogoMostrarRetoBinding, challengeViewModel: ChallengeViewModel) {
+            challengeViewModel.getListChallenge()
+
+            challengeViewModel.listChallenge.observeForever { listaDesafios ->
+                if (listaDesafios.isNotEmpty()) {
+                    val randomChallenge = listaDesafios.random()
+                    binding.txtReto.text = randomChallenge.name
                 }
             }
         }
