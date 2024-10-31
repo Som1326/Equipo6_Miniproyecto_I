@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
+        loadMusicState() // Carga el estado guardado de la música
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -59,12 +60,15 @@ class HomeFragment : Fragment() {
         volumeIcon(volumeButton)
         binding.btnStart.playAnimation()
     }
+    override fun onPause() {
+        super.onPause()
+        releaseMediaPlayer() // Libera el recurso de mediaPlayer al pausar
+    }
 
     override fun onResume() {
         super.onResume()
-
-        if (playMusic && volumeUp){
-            setupMusic()
+        if (playMusic && volumeUp) {
+            setupMusic() // Solo reproduce si está en modo de reproducción y con el volumen activado
         }
     }
 
@@ -87,7 +91,7 @@ class HomeFragment : Fragment() {
             }
             lifecycleScope.launch{
                 binding.btnStart.startAnimation(animation)
-                mediaPlayer2 = MediaPlayer.create(requireContext(), R.raw.bottleturn)
+                mediaPlayer2 = MediaPlayer.create(requireContext(), R.raw.soundbottle)
                 mediaPlayer2?.isLooping = true
                 mediaPlayer2?.start()
                 delay(binding.btnStart.duration/3)
@@ -98,7 +102,7 @@ class HomeFragment : Fragment() {
 
     private fun setupMusic() {
         if (playMusic) {
-            mediaPlayer = MediaPlayer.create(requireContext(), R.raw.runaway)
+            mediaPlayer = MediaPlayer.create(requireContext(), R.raw.soundtrack)
             mediaPlayer?.isLooping = true
             mediaPlayer?.start()
         } else {
@@ -143,6 +147,7 @@ class HomeFragment : Fragment() {
             volumeButton.startAnimation(animation)
             volumeIcon(volumeButton)
             setupMusic()
+            saveMusicState() // Guarda el estado cada vez que cambia
         }
 
         optionGame.setOnClickListener {
@@ -256,6 +261,19 @@ class HomeFragment : Fragment() {
                 ::setupMusic // Pasamos la función como referencia
             )
         }
+    }
+    private fun saveMusicState() {
+        val sharedPreferences = requireContext().getSharedPreferences("music_preferences", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putBoolean("playMusic", playMusic)
+            putBoolean("volumeUp", volumeUp)
+            apply()
+        }
+    }
+    private fun loadMusicState() {
+        val sharedPreferences = requireContext().getSharedPreferences("music_preferences", Context.MODE_PRIVATE)
+        playMusic = sharedPreferences.getBoolean("playMusic", true)
+        volumeUp = sharedPreferences.getBoolean("volumeUp", true)
     }
 
 
