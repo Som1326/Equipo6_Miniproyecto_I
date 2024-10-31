@@ -2,6 +2,7 @@ package com.example.miniproyectoi.view.dialogos
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.example.miniproyectoi.databinding.DialogoMostrarRetoBinding
@@ -12,7 +13,8 @@ class DialogoMostrarReto {
     companion object{
         fun showDialogPersonalizado(
             context: Context,
-            viewModel: InventoryViewModel // Pasamos el ViewModel como parámetro
+            viewModel: InventoryViewModel, // Pasamos el ViewModel como parámetro
+            setupMusic: () -> Unit, // Pasamos la función como parámetro
         ) {
             val inflater = LayoutInflater.from(context)
             val binding = DialogoMostrarRetoBinding.inflate(inflater)
@@ -28,6 +30,12 @@ class DialogoMostrarReto {
             binding.btncerrar.setOnClickListener {
                 alertDialog.dismiss()
             }
+
+            // Configura el listener para ejecutar setupMusic cuando se cierre el diálogo
+            alertDialog.setOnDismissListener {
+                setupMusic()
+            }
+
             alertDialog.show()
         }
 
@@ -53,7 +61,5 @@ class DialogoMostrarReto {
                 }
             }
         }
-
-
     }
 }
