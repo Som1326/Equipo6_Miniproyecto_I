@@ -14,8 +14,6 @@ import com.example.miniproyectoi.view.adapter.ChallengeAdapter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.example.miniproyectoi.databinding.DialogCustomBinding
 import com.example.miniproyectoi.viewmodel.ChallengeViewModel
@@ -31,8 +29,7 @@ class ChallengeFragment : Fragment() {
     ): View? {
         binding = FragmentChallengeBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        remaneTittle("Retos")
-        customiseToolbar()
+
         setupDialog()
 
         return binding.root
@@ -117,21 +114,5 @@ class ChallengeFragment : Fragment() {
         challengeViewModel.progresState.observe(viewLifecycleOwner){status ->
             binding.progress.isVisible = status
         }
-    }
-
-    private fun customiseToolbar(){
-        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom)
-        val toolbar = binding.callToolBar.customToolbar
-        val backButton = toolbar.findViewById<ImageView>(R.id.back_toolbar)
-
-        backButton.setOnClickListener {
-            backButton.startAnimation(animation)
-            findNavController().navigate(R.id.action_challengeFragment_to_homeFragment)
-        }
-    }
-
-    private fun remaneTittle(newTitle: String){
-        val textReplace = binding.callToolBar.toolbarTittle
-        textReplace.text = newTitle
     }
 }
