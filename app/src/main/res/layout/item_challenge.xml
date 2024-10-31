@@ -68,15 +68,26 @@
                         android:padding="5dp" />
                 </LinearLayout>
 
+                <!-- Línea divisoria -->
+                <View
+                    android:id="@+id/lineSeparator"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    card_view:layout_constraintTop_toBottomOf="@id/gameIcon"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp" />
+
                 <!-- Nombre del reto -->
                 <TextView
                     android:id="@+id/nameChallenge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre del reto"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="16sp"
-                    card_view:layout_constraintTop_toBottomOf="@id/gameIcon"
+                    card_view:layout_constraintTop_toBottomOf="@id/lineSeparator"
                     card_view:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

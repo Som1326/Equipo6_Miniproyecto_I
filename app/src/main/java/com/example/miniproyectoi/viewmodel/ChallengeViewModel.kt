@@ -20,11 +20,12 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
 
-    fun saveChallenge(challenge: Challenge){
+    fun saveChallenge(challenge: String){
         viewModelScope.launch {
             _progresState.value = true
             try {
                 challengeRepository.saveChallenge(challenge)
+                getListChallenge()
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -49,6 +50,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
             _progresState.value = true
             try {
                 challengeRepository.deleteChallenge(challenge)
+                getListChallenge()
                 _progresState.value = false
             } catch (e: Exception){
                 _progresState.value = false
@@ -61,6 +63,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
             _progresState.value = true
             try {
                 challengeRepository.updateRepository(challenge)
+                getListChallenge()
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false

@@ -11,9 +11,6 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_rateFragment"
-            app:destination="@id/rateFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_instructionsFragment"
             app:destination="@id/instructionsFragment" />
         <action
@@ -30,18 +27,22 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/rateFragment"
-        android:name="com.example.miniproyectoi.view.fragment.RateFragment"
-        android:label="fragment_rate"
-        tools:layout="@layout/fragment_rate" />
-    <fragment
         android:id="@+id/instructionsFragment"
         android:name="com.example.miniproyectoi.view.fragment.InstructionsFragment"
         android:label="fragment_instructions"
-        tools:layout="@layout/fragment_instructions" />
+        tools:layout="@layout/fragment_instructions" >
+        <action
+            android:id="@+id/action_rateFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/challengeFragment"
         android:name="com.example.miniproyectoi.view.fragment.ChallengeFragment"
         android:label="fragment_challenge"
-        tools:layout="@layout/fragment_challenge" />
+        tools:layout="@layout/fragment_challenge" >
+        <action
+            android:id="@+id/action_challengeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

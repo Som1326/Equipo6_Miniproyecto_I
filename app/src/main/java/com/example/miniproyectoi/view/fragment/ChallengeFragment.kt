@@ -1,23 +1,24 @@
 package com.example.miniproyectoi.view.fragment
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.example.miniproyectoi.R
+
 import com.example.miniproyectoi.databinding.FragmentChallengeBinding
 import com.example.miniproyectoi.view.adapter.ChallengeAdapter
-
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.navigation.fragment.findNavController
-import com.example.miniproyectoi.databinding.DialogCustomBinding
+import com.example.miniproyectoi.view.dialogos.DialogAddChallenge
+import com.example.miniproyectoi.view.dialogos.DialogDeleteChallenge
+import com.example.miniproyectoi.view.dialogos.DialogEditChallenge
 import com.example.miniproyectoi.viewmodel.ChallengeViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ChallengeFragment : Fragment() {
     private lateinit var binding: FragmentChallengeBinding
@@ -30,7 +31,9 @@ class ChallengeFragment : Fragment() {
         binding = FragmentChallengeBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        setupDialog()
+        remaneTittle("Retos")
+        customiseToolbar()
+        setUpCreateChallengeDialog()
 
         return binding.root
     }
@@ -40,61 +43,36 @@ class ChallengeFragment : Fragment() {
         observerViewModel()
     }
 
-    private fun setupDialog() {
+    private fun setUpCreateChallengeDialog() {
         binding.btnAdd.setOnClickListener {
-            val dialogBinding = DialogCustomBinding.inflate(layoutInflater)
-
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setView(dialogBinding.root)
-                .setCancelable(false) // No se cierra al tocar fuera
-                .create()
-
-            // Botón "Guardar" deshabilitado inicialmente
-            dialogBinding.btnSave.apply {
-                isEnabled = false
-                setBackgroundColor(resources.getColor(R.color.grey))
-            }
-
-            // Listener para detectar cambios en el texto del EditText
-            dialogBinding.etChallengeName.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    val isNotEmpty = !s.isNullOrEmpty()
-                    dialogBinding.btnSave.apply {
-                        isEnabled = isNotEmpty
-                        // Cambia el color según el estado
-                        setBackgroundColor(
-                            if (isNotEmpty) resources.getColor(R.color.orange)
-                            else resources.getColor(R.color.grey)
-                        )
-                    }
-                }
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            })
-
-            // Botón "Cancelar" para cerrar el diálogo
-            dialogBinding.btnCancel.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.show()
+            DialogAddChallenge.showDialog(requireContext(), challengeViewModel)
         }
     }
+
 
     private fun observerViewModel(){
         observerListChallenge()
         observerProgress()
     }
 
-    private fun observerListChallenge(){
+    private fun observerListChallenge() {
         challengeViewModel.getListChallenge()
-        challengeViewModel.listChallenge.observe(viewLifecycleOwner){ listChallenge ->
+        challengeViewModel.listChallenge.observe(viewLifecycleOwner) { listChallenge ->
             val recycler = binding.recyclerview
-            val layoutManager = LinearLayoutManager(context)
             recycler.layoutManager = LinearLayoutManager(context)
-            val adapter = ChallengeAdapter(listChallenge, findNavController())
-            recycler.adapter =adapter
+
+            val adapter = ChallengeAdapter(
+                listChallenge,
+                findNavController(),
+                onEditClick = { challenge ->
+                    DialogEditChallenge.showDialog(requireContext(), challengeViewModel, challenge)
+                },
+                onDeleteClick = { challenge ->
+                    DialogDeleteChallenge.showDialog(requireContext(), challengeViewModel, challenge)
+                }
+            )
+
+            recycler.adapter = adapter
             adapter.notifyDataSetChanged()
         }
     }
@@ -105,4 +83,19 @@ class ChallengeFragment : Fragment() {
         }
     }
 
+    private fun customiseToolbar(){
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom)
+        val toolbar = binding.callToolBar.customToolbar
+        val backButton = toolbar.findViewById<ImageView>(R.id.back_toolbar)
+
+        backButton.setOnClickListener {
+            backButton.startAnimation(animation)
+            findNavController().navigate(R.id.action_challengeFragment_to_homeFragment)
+        }
+    }
+
+    private fun remaneTittle(newTitle: String){
+        val textReplace = binding.callToolBar.toolbarTittle
+        textReplace.text = newTitle
+    }
 }

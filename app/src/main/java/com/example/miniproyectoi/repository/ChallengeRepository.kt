@@ -8,8 +8,9 @@ import kotlinx.coroutines.withContext
 
 class ChallengeRepository(val context: Context) {
     private var challengeDao: ChallengeDao = ChallengeDB.getDatabase(context).challengeDao()
-    suspend fun saveChallenge(challenge: Challenge){
+    suspend fun saveChallenge(challengeName: String){
         withContext(Dispatchers.IO){
+            val challenge = Challenge(name = challengeName)
             challengeDao.saveChallenge(challenge)
         }
     }
