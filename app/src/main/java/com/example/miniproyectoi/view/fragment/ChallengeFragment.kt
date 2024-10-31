@@ -73,7 +73,17 @@ class ChallengeFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
 
-            // Botón "Cancelar" para cerrar el diálogo
+            // Botón "Guardar" para guardar el reto y cerrar el diálogo
+            dialogBinding.btnSave.setOnClickListener {
+                val challengeName = dialogBinding.etChallengeName.text.toString()
+
+                if (challengeName.isNotEmpty()) {
+                    challengeViewModel.saveChallenge(challengeName)
+                    dialog.dismiss()
+                }
+            }
+
+            // Botón "Cancelar" para cerrar el diálogo sin guardar
             dialogBinding.btnCancel.setOnClickListener {
                 dialog.dismiss()
             }
@@ -81,6 +91,7 @@ class ChallengeFragment : Fragment() {
             dialog.show()
         }
     }
+
 
     private fun observerViewModel(){
         observerListChallenge()
@@ -104,5 +115,4 @@ class ChallengeFragment : Fragment() {
             binding.progress.isVisible = status
         }
     }
-
 }

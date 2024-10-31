@@ -20,7 +20,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
 
-    fun saveChallenge(challenge: Challenge){
+    fun saveChallenge(challenge: String){
         viewModelScope.launch {
             _progresState.value = true
             try {
