@@ -25,6 +25,7 @@ import android.content.Context
 import android.widget.Button
 import com.example.miniproyectoi.view.dialogos.DialogoMostrarReto.Companion.showDialogPersonalizado
 import androidx.fragment.app.viewModels
+import com.example.miniproyectoi.viewmodel.ChallengeViewModel
 import com.example.miniproyectoi.viewmodel.InventoryViewModel
 import okhttp3.internal.wait
 
@@ -35,6 +36,7 @@ class HomeFragment : Fragment() {
     private var mediaPlayer2: MediaPlayer? = null
     private var lastRotation = 0f
     private val inventoryViewModel: InventoryViewModel by viewModels()
+    private val challengeViewModel: ChallengeViewModel by viewModels()
     private var playMusic = true
     private var volumeUp = true
     private var _url = "https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
@@ -250,6 +252,7 @@ class HomeFragment : Fragment() {
             showDialogPersonalizado(
                 binding.root.context,
                 inventoryViewModel,
+                challengeViewModel,
                 ::setupMusic // Pasamos la función como referencia
             )
         }
