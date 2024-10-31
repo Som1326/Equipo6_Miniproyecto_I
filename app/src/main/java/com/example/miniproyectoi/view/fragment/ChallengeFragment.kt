@@ -1,17 +1,20 @@
 package com.example.miniproyectoi.view.fragment
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import com.example.miniproyectoi.R
+
 import com.example.miniproyectoi.databinding.FragmentChallengeBinding
 import com.example.miniproyectoi.view.adapter.ChallengeAdapter
-
-import androidx.navigation.fragment.findNavController
 import com.example.miniproyectoi.view.dialogos.DialogAddChallenge
 import com.example.miniproyectoi.view.dialogos.DialogDeleteChallenge
 import com.example.miniproyectoi.view.dialogos.DialogEditChallenge
@@ -28,6 +31,8 @@ class ChallengeFragment : Fragment() {
         binding = FragmentChallengeBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
+        remaneTittle("Retos")
+        customiseToolbar()
         setUpCreateChallengeDialog()
 
         return binding.root
@@ -72,11 +77,25 @@ class ChallengeFragment : Fragment() {
         }
     }
 
-
-
     private fun observerProgress(){
         challengeViewModel.progresState.observe(viewLifecycleOwner){status ->
             binding.progress.isVisible = status
         }
+    }
+
+    private fun customiseToolbar(){
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom)
+        val toolbar = binding.callToolBar.customToolbar
+        val backButton = toolbar.findViewById<ImageView>(R.id.back_toolbar)
+
+        backButton.setOnClickListener {
+            backButton.startAnimation(animation)
+            findNavController().navigate(R.id.action_challengeFragment_to_homeFragment)
+        }
+    }
+
+    private fun remaneTittle(newTitle: String){
+        val textReplace = binding.callToolBar.toolbarTittle
+        textReplace.text = newTitle
     }
 }
