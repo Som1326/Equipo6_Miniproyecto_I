@@ -128,7 +128,6 @@ class HomeFragment : Fragment() {
             }
             lifecycleScope.launch{
                 delay(animation.duration)  // Espera el tiempo de la animación
-                findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
             }
         }
 

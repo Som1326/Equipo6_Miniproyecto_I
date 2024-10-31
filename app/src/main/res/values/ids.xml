@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="contentToolbar" type="id"/>
+    <item name="customToolbar" type="id"/>
+    <item name="callToolBar" type="id"/>
     <item name="img_bottle" type="id"/>
     <item name="txt_counter" type="id"/>
     <item name="btn_start" type="id"/>
@@ -10,4 +12,6 @@
     <item name="game_toolbar" type="id"/>
     <item name="add_toolbar" type="id"/>
     <item name="share_toolbar" type="id"/>
+    <item name="back_toolbar" type="id"/>
+    <item name="toolbar_tittle" type="id"/>
 </resources>
