@@ -9,7 +9,7 @@ import com.example.miniproyectoi.model.Challenge
 
 @Dao
 interface ChallengeDao {
-    @Query("SELECT * FROM Challenge")
+    @Query("SELECT * FROM Challenge ORDER BY id DESC")
     suspend fun getListChallenge(): MutableList<Challenge>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

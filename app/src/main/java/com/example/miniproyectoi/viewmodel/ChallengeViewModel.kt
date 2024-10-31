@@ -25,6 +25,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
             _progresState.value = true
             try {
                 challengeRepository.saveChallenge(challenge)
+                getListChallenge()
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
