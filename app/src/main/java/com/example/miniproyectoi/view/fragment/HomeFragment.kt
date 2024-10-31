@@ -1,26 +1,18 @@
 package com.example.miniproyectoi.view.fragment
 
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
-import android.media.AudioManager
-import android.media.Image
 import android.media.MediaPlayer
-import android.media.SoundPool
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.airbnb.lottie.LottieAnimationView
 import com.example.miniproyectoi.R
 import com.example.miniproyectoi.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -29,6 +21,7 @@ import kotlinx.coroutines.launch
 import androidx.activity.OnBackPressedCallback
 import kotlin.random.Random
 import android.animation.Animator
+import android.content.Context
 import com.example.miniproyectoi.view.dialogos.DialogoMostrarReto.Companion.showDialogPersonalizado
 import androidx.fragment.app.viewModels
 import com.example.miniproyectoi.viewmodel.InventoryViewModel
@@ -39,7 +32,8 @@ class HomeFragment : Fragment() {
     private var mediaPlayer: MediaPlayer? = null
     private var lastRotation = 0f
     private val inventoryViewModel: InventoryViewModel by viewModels()
-
+    private var playMusic = true
+    private var volumeUp = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,97 +41,131 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        handleOnBackPressed()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+        val toolbar = binding.contentToolbar.toolbar
+        val volumeButton = toolbar.findViewById<ImageView>(R.id.volume_toolbar)
+        handleOnBackPressed()
         setupToolbar()
-        binding.txtCounter
-
-        binding.btnStart.setOnClickListener {
-            Snackbar.make(binding.btnStart.findViewById(R.id.btn_start), "Boton presionado", Toast.LENGTH_LONG).show()
-
-            startBottleRotation()
-
-            lifecycleScope.launch{
-                binding.btnStart.playAnimation()
-                delay(binding.btnStart.duration/3)  // Espera el tiempo de la animación
-//                findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
-            }
-
-        }
-
-        mediaPlayer = MediaPlayer.create(requireContext(), R.raw.runaway)
-        mediaPlayer?.isLooping = true
-        mediaPlayer?.start()
-        mediaPlayer?.setOnCompletionListener {
-            releaseMediaPlayer()
-        }
-
+        setupBtnStart()
+        volumeIcon(volumeButton)
+        binding.btnStart.playAnimation()
     }
 
-    private fun releaseMediaPlayer() {
-        mediaPlayer?.release() // Liberar recursos del MediaPlayer
-        mediaPlayer = null // Establecer a null para evitar fugas de memoria
+    override fun onResume() {
+        super.onResume()
+        val toolbar = binding.contentToolbar.toolbar
+        val volumeButton = toolbar.findViewById<ImageView>(R.id.volume_toolbar)
+
+        if (playMusic && volumeUp){
+            volumeIcon(volumeButton)
+            setupMusic(toolbar)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        releaseMediaPlayer() // Asegurarse de liberar el MediaPlayer al destruir el fragmento
+        releaseMediaPlayer()
+    }
+
+    private fun releaseMediaPlayer() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
+    private fun setupBtnStart(){
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom)
+        binding.btnStart.setOnClickListener {
+            Snackbar.make(binding.btnStart.findViewById(R.id.btn_start), "Boton presionado", Toast.LENGTH_LONG).show()
+
+            lifecycleScope.launch{
+                binding.btnStart.startAnimation(animation)
+                delay(binding.btnStart.duration/3)
+                startBottleRotation()
+            }
+        }
+    }
+
+    private fun setupMusic(toolbar: androidx.appcompat.widget.Toolbar) {
+        if (playMusic) {
+            mediaPlayer = MediaPlayer.create(requireContext(), R.raw.runaway)
+            mediaPlayer?.isLooping = true
+            mediaPlayer?.start()
+            Snackbar.make(toolbar, "Music Playing", Snackbar.LENGTH_LONG).show()
+        } else {
+            releaseMediaPlayer()
+            Snackbar.make(toolbar, "Music Paused", Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun volumeIcon(volumeButton: ImageView){
+        if (volumeUp){
+            volumeButton.setImageResource(R.drawable.baseline_volume_up_24)
+        } else {
+            volumeButton.setImageResource(R.drawable.baseline_volume_off_24)
+        }
     }
 
     private fun setupToolbar() {
-        val toolbar = binding.contentToolbar.toolbar
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom)
+        val toolbar = binding.contentToolbar.toolbar
+        val volumeButton = toolbar.findViewById<ImageView>(R.id.volume_toolbar)
+        val optionRate = toolbar.findViewById<ImageView>(R.id.rate_toolbar)
+        val optionGame = toolbar.findViewById<ImageView>(R.id.game_toolbar)
+        val optionAdd = toolbar.findViewById<ImageView>(R.id.add_toolbar)
+        val optionShare = toolbar.findViewById<ImageView>(R.id.share_toolbar)
 
-        toolbar.findViewById<ImageView>(R.id.rate_toolbar).setOnClickListener {
-            Snackbar.make(toolbar, "Rate Option", Toast.LENGTH_LONG).show()
-            toolbar.findViewById<ImageView>(R.id.rate_toolbar).startAnimation(animation)
+        optionRate.setOnClickListener {
+            optionRate.startAnimation(animation)
+            if (mediaPlayer?.isPlaying == true){
+                mediaPlayer?.stop()
+            }
             lifecycleScope.launch{
                 delay(animation.duration)  // Espera el tiempo de la animación
                 findNavController().navigate(R.id.action_homeFragment_to_rateFragment)
             }
         }
 
-        val volumeButton = toolbar.findViewById<ImageView>(R.id.volume_toolbar)
         volumeButton.setOnClickListener {
-            if (mediaPlayer?.isPlaying == true) {
-                mediaPlayer?.pause()
-                volumeButton.setImageResource(R.drawable.baseline_volume_off_24) // Cambia al icono de "play"
-                Snackbar.make(toolbar, "Music Paused", Snackbar.LENGTH_LONG).show()
-            } else {
-                mediaPlayer?.start()
-                volumeButton.setImageResource(R.drawable.baseline_volume_up_24) // Cambia al icono de "pausa"
-                Snackbar.make(toolbar, "Music Playing", Snackbar.LENGTH_LONG).show()
-            }
+            playMusic = !playMusic
+            volumeUp = !volumeUp
+            volumeButton.startAnimation(animation)
+            volumeIcon(volumeButton)
+            setupMusic(toolbar)
         }
 
-        toolbar.findViewById<ImageView>(R.id.game_toolbar).setOnClickListener {
-            Snackbar.make(toolbar, "Instructions Option", Toast.LENGTH_LONG).show()
+        optionGame.setOnClickListener {
+            optionGame.startAnimation(animation)
+            if (mediaPlayer?.isPlaying == true){
+                mediaPlayer?.stop()
+            }
             lifecycleScope.launch{
-                delay(animation.duration)  // Espera el tiempo de la animación
+                delay(animation.duration)
                 findNavController().navigate(R.id.action_homeFragment_to_instructionsFragment)
             }
         }
 
-        toolbar.findViewById<ImageView>(R.id.add_toolbar).setOnClickListener {
-            Snackbar.make(toolbar, "Add Option", Toast.LENGTH_LONG).show()
+        optionAdd.setOnClickListener {
+            optionAdd.startAnimation(animation)
+            if (mediaPlayer?.isPlaying == true){
+                mediaPlayer?.stop()
+            }
             lifecycleScope.launch{
-                delay(animation.duration)  // Espera el tiempo de la animación
+                delay(animation.duration)
                 findNavController().navigate(R.id.action_homeFragment_to_challengeFragment)
             }
         }
 
-        toolbar.findViewById<ImageView>(R.id.share_toolbar).setOnClickListener {
-            Snackbar.make(toolbar, "Share Option", Toast.LENGTH_LONG).show()
+        optionShare.setOnClickListener {
+            optionShare.startAnimation(animation)
+            if (mediaPlayer?.isPlaying == true){
+                mediaPlayer?.stop()
+            }
+            Share()
         }
-        val OptionShare = toolbar.findViewById<ImageView>(R.id.share_toolbar)
-
-        OptionShare.setOnClickListener{ Share()}
-
     }
 
     private fun handleOnBackPressed() {
@@ -145,7 +173,6 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    // Cierra la app al presionar atrás desde el Home
                     requireActivity().finish()
                 }
             }
@@ -168,11 +195,10 @@ class HomeFragment : Fragment() {
         val chooser = Intent.createChooser(intent, "Compartir vía")
         startActivity(chooser)
     }
+
     private fun startBottleRotation() {
-        // aqui generamos un angulo para que gire en la misma posicion que habia quedado despues del giro
         val newRotation = lastRotation + Random.nextInt(720, 1440) // De 2 a 4 vueltas completas
 
-        // Creamos y configuramos la animación de rotación
         val rotateAnimation = ObjectAnimator.ofFloat(binding.imgBottle, "rotation", lastRotation, newRotation)
         rotateAnimation.duration = Random.nextLong(3000, 5000) // Duración entre 3 y 5 segundos
 
@@ -187,27 +213,25 @@ class HomeFragment : Fragment() {
             override fun onAnimationRepeat(animation: Animator) {}
         })
 
-        // Inicia la animación de rotación
         binding.btnStart.visibility=View.INVISIBLE
         binding.txtPresioname.visibility=View.INVISIBLE
         rotateAnimation.start()
     }
 
     private fun onRotationEnd(newRotation: Float) {
-        // Guarda la posición final de la botella para la próxima rotación
         lastRotation = newRotation % 360
-        showCountdown() // Muestra la cuenta regresiva
+        showCountdown()
     }
 
     private fun showCountdown() {
-        binding.txtCounter.visibility = View.VISIBLE // se hace visible  el contador
+        binding.txtCounter.visibility = View.VISIBLE
         lifecycleScope.launch {
             for (i in 3 downTo 0) {
                 binding.txtCounter.text = i.toString()
-                delay(1000) // Esperamos 1 segundo para cada número de la cuenta regresiva
+                delay(1000)
             }
-            binding.txtCounter.visibility = View.GONE // Ocultamos el contador cuando llega a 0
-            binding.btnStart.visibility = View.VISIBLE // Muestramos el botón nuevamente
+            binding.txtCounter.visibility = View.GONE
+            binding.btnStart.visibility = View.VISIBLE
             binding.txtPresioname.visibility=View.VISIBLE
 
             showDialogPersonalizado(binding.root.context, inventoryViewModel)
