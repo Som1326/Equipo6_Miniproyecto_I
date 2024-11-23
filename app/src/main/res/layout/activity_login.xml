@@ -52,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:textColorHint="@color/white"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:maxLength="40"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,9 +79,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:textColorHint="@color/white"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:maxLength="10"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,6 +94,7 @@
             android:text="@string/login"
             android:textColor="@color/black"
             android:backgroundTint="@color/login_orange"
+            android:enabled="false"
             app:layout_constraintTop_toBottomOf="@id/tilPass"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -104,6 +107,7 @@
             android:text="@string/registrarse"
             android:textColor="@color/color_btnRegistrarse"
             android:backgroundTint="@color/black"
+            android:enabled="false"
             app:layout_constraintTop_toBottomOf="@id/btnLogin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
