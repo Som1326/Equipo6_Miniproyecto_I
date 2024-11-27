@@ -24,7 +24,7 @@
                 android:layout_width="350dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
-                android:columnCount="5"
+                android:columnCount="6"
                 android:rowCount="1"
                 android:background="@android:color/transparent">
 
@@ -91,6 +91,19 @@
                     android:focusable="true"
                     android:background="?selectableItemBackgroundBorderless"
                     android:src="@drawable/baseline_share_24">
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/logout_toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/baseline_logout_24">
                 </ImageView>
 
             </GridLayout>
