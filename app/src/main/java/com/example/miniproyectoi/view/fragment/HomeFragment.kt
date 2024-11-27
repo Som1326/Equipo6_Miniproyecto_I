@@ -25,8 +25,11 @@ import android.content.Context
 import android.widget.Button
 import com.example.miniproyectoi.view.dialogos.DialogoMostrarReto.Companion.showDialogPersonalizado
 import androidx.fragment.app.viewModels
+import com.example.miniproyectoi.view.LoginActivity
+import com.example.miniproyectoi.view.MainActivity
 import com.example.miniproyectoi.viewmodel.ChallengeViewModel
 import com.example.miniproyectoi.viewmodel.InventoryViewModel
+import com.google.firebase.auth.FirebaseAuth
 import okhttp3.internal.wait
 
 class HomeFragment : Fragment() {
@@ -126,6 +129,7 @@ class HomeFragment : Fragment() {
         val optionGame = toolbar.findViewById<ImageView>(R.id.game_toolbar)
         val optionAdd = toolbar.findViewById<ImageView>(R.id.add_toolbar)
         val optionShare = toolbar.findViewById<ImageView>(R.id.share_toolbar)
+        val optionLogout = toolbar.findViewById<ImageView>(R.id.logout_toolbar)
 
         optionRate.setOnClickListener {
             optionRate.startAnimation(animation)
@@ -178,6 +182,18 @@ class HomeFragment : Fragment() {
                 mediaPlayer?.stop()
             }
             Share()
+        }
+
+        optionLogout.setOnClickListener {
+            optionLogout.startAnimation(animation)
+            if (playMusic){
+                mediaPlayer?.stop()
+            }
+            FirebaseAuth.getInstance().signOut()
+            (requireActivity() as MainActivity).apply {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
         }
     }
 
