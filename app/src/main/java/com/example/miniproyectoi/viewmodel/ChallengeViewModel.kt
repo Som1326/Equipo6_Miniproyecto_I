@@ -1,6 +1,7 @@
 package com.example.miniproyectoi.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,52 +21,58 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
 
-    fun saveChallenge(challenge: String){
+    fun saveChallenge(challenge: String) {
         viewModelScope.launch {
             _progresState.value = true
             try {
                 challengeRepository.saveChallenge(challenge)
                 getListChallenge()
-                _progresState.value = false
             } catch (e: Exception) {
+                // Handle error, maybe add an error state
+                Log.e("ChallengeViewModel", "Error saving challenge", e)
+            } finally {
                 _progresState.value = false
             }
         }
     }
 
-    fun getListChallenge(){
+    fun getListChallenge() {
         viewModelScope.launch {
             _progresState.value = true
             try {
                 _listChallenge.value = challengeRepository.getListChallenge()
-                _progresState.value = false
-            } catch (e: Exception){
+            } catch (e: Exception) {
+                Log.e("ChallengeViewModel", "Error getting challenges", e)
+                _listChallenge.value = mutableListOf()
+            } finally {
                 _progresState.value = false
             }
         }
     }
 
-    fun deleteChallenge(challenge: Challenge){
+    fun deleteChallenge(challenge: Challenge) {
         viewModelScope.launch {
             _progresState.value = true
             try {
                 challengeRepository.deleteChallenge(challenge)
                 getListChallenge()
-                _progresState.value = false
-            } catch (e: Exception){
+            } catch (e: Exception) {
+                Log.e("ChallengeViewModel", "Error deleting challenge", e)
+            } finally {
                 _progresState.value = false
             }
         }
     }
 
-    fun updateChallenge(challenge: Challenge){
+    fun updateChallenge(challenge: Challenge) {
         viewModelScope.launch {
             _progresState.value = true
             try {
                 challengeRepository.updateRepository(challenge)
                 getListChallenge()
-                _progresState.value = false
             } catch (e: Exception) {
+                Log.e("ChallengeViewModel", "Error updating challenge", e)
+            } finally {
                 _progresState.value = false
             }
         }

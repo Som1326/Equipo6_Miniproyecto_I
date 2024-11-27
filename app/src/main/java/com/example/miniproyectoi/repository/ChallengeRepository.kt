@@ -1,35 +1,34 @@
 package com.example.miniproyectoi.respository
 import android.content.Context
-import com.example.miniproyectoi.data.ChallengeDB
-import com.example.miniproyectoi.data.ChallengeDao
 import com.example.miniproyectoi.model.Challenge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
+
 class ChallengeRepository(val context: Context) {
-    private var challengeDao: ChallengeDao = ChallengeDB.getDatabase(context).challengeDao()
-    suspend fun saveChallenge(challengeName: String){
-        withContext(Dispatchers.IO){
-            val challenge = Challenge(name = challengeName)
-            challengeDao.saveChallenge(challenge)
+    private val firestore = FirebaseFirestore.getInstance()
+    private val challengeCollection = firestore.collection("challenges")
+
+    suspend fun saveChallenge(challengeName: String) {
+        val challenge = Challenge(name = challengeName)
+        challengeCollection.add(challenge).await()
+    }
+
+    suspend fun getListChallenge(): MutableList<Challenge> {
+        return challengeCollection.get().await().toObjects(Challenge::class.java).toMutableList()
+    }
+
+    suspend fun deleteChallenge(challenge: Challenge) {
+        challenge.id.takeIf { it.isNotEmpty() }?.let {
+            challengeCollection.document(it).delete().await()
         }
     }
 
-    suspend fun getListChallenge(): MutableList<Challenge>{
-        return withContext(Dispatchers.IO){
-            challengeDao.getListChallenge()
-        }
-    }
-
-    suspend fun deleteChallenge(challenge: Challenge){
-        withContext(Dispatchers.IO){
-            challengeDao.deleteChallenge(challenge)
-        }
-    }
-
-    suspend fun updateRepository(challenge: Challenge){
-        withContext(Dispatchers.IO){
-            challengeDao.updateChallenge(challenge)
+    suspend fun updateRepository(challenge: Challenge) {
+        challenge.id.takeIf { it.isNotEmpty() }?.let {
+            challengeCollection.document(it).set(challenge).await()
         }
     }
 }
