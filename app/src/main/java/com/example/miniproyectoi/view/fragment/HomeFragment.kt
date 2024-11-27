@@ -190,10 +190,9 @@ class HomeFragment : Fragment() {
                 mediaPlayer?.stop()
             }
             FirebaseAuth.getInstance().signOut()
-            (requireActivity() as MainActivity).apply {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 
