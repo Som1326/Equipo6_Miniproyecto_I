@@ -30,8 +30,10 @@ import com.example.miniproyectoi.view.MainActivity
 import com.example.miniproyectoi.viewmodel.ChallengeViewModel
 import com.example.miniproyectoi.viewmodel.InventoryViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.internal.wait
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding

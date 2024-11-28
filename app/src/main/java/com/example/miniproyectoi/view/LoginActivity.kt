@@ -21,7 +21,9 @@ import com.example.miniproyectoi.databinding.ActivityLoginBinding
 import com.example.miniproyectoi.model.UserRequest
 import com.example.miniproyectoi.viewmodel.LoginViewModel
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity: AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()

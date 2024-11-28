@@ -12,9 +12,10 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.miniproyectoi.R
 import com.example.miniproyectoi.databinding.FragmentHomeBinding
 import com.example.miniproyectoi.databinding.FragmentInstructionsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 
-
+@AndroidEntryPoint
 class InstructionsFragment : Fragment() {
 
     private lateinit var binding: FragmentInstructionsBinding

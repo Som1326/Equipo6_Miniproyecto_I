@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import com.example.miniproyectoi.R
 import com.example.miniproyectoi.databinding.FragmentHomeBinding
 import com.example.miniproyectoi.databinding.FragmentRateBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RateFragment : Fragment() {
 
     private lateinit var binding: FragmentRateBinding
