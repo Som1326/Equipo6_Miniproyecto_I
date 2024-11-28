@@ -6,9 +6,11 @@ import kotlinx.coroutines.withContext
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class ChallengeRepository(val context: Context) {
-    private val firestore = FirebaseFirestore.getInstance()
+class ChallengeRepository @Inject constructor(
+    private val firestore: FirebaseFirestore
+) {
     private val challengeCollection = firestore.collection("challenges")
 
     suspend fun saveChallenge(challengeName: String) {

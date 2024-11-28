@@ -5,15 +5,18 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.miniproyectoi.model.Challenge
 import com.example.miniproyectoi.respository.ChallengeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class ChallengeViewModel(application: Application) : AndroidViewModel(application) {
-    val context = getApplication<Application>()
-    private val challengeRepository = ChallengeRepository(context)
+@HiltViewModel
+class ChallengeViewModel @Inject constructor(
+    private val challengeRepository: ChallengeRepository
+): ViewModel() {
 
     private val _listChallenge = MutableLiveData<MutableList<Challenge>>()
     val listChallenge: LiveData<MutableList<Challenge>> get() = _listChallenge

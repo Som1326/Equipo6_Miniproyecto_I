@@ -7,9 +7,14 @@ import com.example.miniproyectoi.model.UserRequest
 import com.example.miniproyectoi.model.UserResponse
 import com.example.miniproyectoi.repository.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
-    private val repository = LoginRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: LoginRepository
+): ViewModel() {
+
     private val _isRegister = MutableLiveData<UserResponse>()
     val isRegister: LiveData<UserResponse> = _isRegister
 

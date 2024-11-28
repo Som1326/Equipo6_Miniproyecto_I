@@ -2,13 +2,15 @@ package com.example.miniproyectoi.repository
 
 import android.content.Context
 import com.example.miniproyectoi.webservice.ApiService
-import com.example.miniproyectoi.webservice.ApiUtils
 import com.example.miniproyectoi.model.ProductModelResponse
+import javax.inject.Inject
 
-class InventoryRepository (val context: Context) {
-    private var apiService: ApiService = ApiUtils.getApiService()
+class InventoryRepository @Inject constructor(
+    private val apiService: ApiService
+) {
+
     suspend fun getProducts(): List<ProductModelResponse> {
-        val response = ApiUtils.getApiService().getProducts()
+        val response = apiService.getProducts()
         return response.pokemon
     }
 }

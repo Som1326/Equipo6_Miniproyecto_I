@@ -5,9 +5,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import javax.inject.Inject
 
-class LoginRepository {
-    private val firebaseAuth = FirebaseAuth.getInstance()
+class LoginRepository @Inject constructor(
+    private val firebaseAuth : FirebaseAuth
+) {
 
     fun registerUser(userRequest: UserRequest, userResponse: (UserResponse) -> Unit) {
         if (userRequest.email.isEmpty() || userRequest.password.isEmpty()) {

@@ -16,8 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.miniproyectoi.view.LoginActivity
 import com.example.miniproyectoi.view.MainActivity
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding
 

@@ -19,7 +19,9 @@ import com.example.miniproyectoi.view.dialogos.DialogAddChallenge
 import com.example.miniproyectoi.view.dialogos.DialogDeleteChallenge
 import com.example.miniproyectoi.view.dialogos.DialogEditChallenge
 import com.example.miniproyectoi.viewmodel.ChallengeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChallengeFragment : Fragment() {
     private lateinit var binding: FragmentChallengeBinding
     private val challengeViewModel: ChallengeViewModel by viewModels()
